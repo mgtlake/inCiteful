@@ -20,7 +20,7 @@ app.get('/', function(req, res) {
 		url += "&FullTextQuery=" + author.replace(' ', '+');
 		url += "&ResultObjects=" + "author";
 		url += "&StartIdx=" + "1";
-		url += "&EndIdx=" + "3";
+		url += "&EndIdx=" + "1";
 
 		console.log(new Date().getTime());
 		request(url, function (error, response, body) {
@@ -74,6 +74,7 @@ results = function(input, args) {
 		page += add("<h3>Institution: " + affiliation + "</h3>");
 		page += add("<h3>Total Citation Count: " + citeCount + "</h3>");
 		page += add("<h3>Total Publication Count: " + pubCount + "</h3>");
+		page += add("<h3>Average Citations per Publication: " + (citeCount/pubCount).toFixed(2) + "</h3>");
 		page += add("<h3>H-Index: " + h_index + "</h3>");
 		page += add("<h3>G-Index: " + g_index + "</h3>");
 	}
