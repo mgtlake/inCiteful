@@ -29,15 +29,21 @@ app.get('/', function(req, res) {
 
 				var json = JSON.parse(body);
 
-				header("", results, {"res": res, "json": json});
+				var callbacks = [];
+				callbacks.push(end);
+				callbacks.push(results);
+				header("", callbacks, {"res": res, "json": json});
 			}
 		});
 	} else {
-		header("", homepage, {"res": res});
+		var callbacks = [];
+		callbacks.push(end);
+		callbacks.push(homepage);
+		header("", callbacks, {"res": res});
 	}
 });
 
-homepage = function(input, args) {
+homepage = function(input, callbacks, args) {
 	page = input;
 
 	page += add("<div class='search'>");
@@ -46,13 +52,11 @@ homepage = function(input, args) {
 
 	page += add("</div>");
 
-	page += add("</html>");
-
-	res = args["res"];
-	res.send(page);
+	var callback = callbacks.pop();
+	return callback(input + page, callbacks, args);
 };
 
-results = function(input, args) {
+results = function(input, callbacks, args) {
 	json = args["json"];
 
 	page = input;
@@ -64,6 +68,7 @@ results = function(input, args) {
 	} else {
 		var me = json["d"]["Author"]["Result"][0];
 		var name = me["FirstName"] + " " + me["MiddleName"] + " " + me["LastName"];
+		var id = me["ID"];
 		var affiliation = me["Affiliation"]["Name"];
 		var citeCount = me["CitationCount"];
 		var pubCount = me["PublicationCount"];
@@ -81,18 +86,25 @@ results = function(input, args) {
 
 	page += add("</div>");
 
+	var callback = callbacks.pop();
+	return callback(input + page, callbacks, args);
+};
+
+header = function(input, callbacks, args) {
+	fs.readFile("static/header.html", "utf8" , function(err, data) {
+		if (!err) {
+			var callback = callbacks.pop();
+			return callback(input + data, callbacks, args);
+		}
+	});
+};
+
+end = function(input, callbacks, args) {
+	page = input;
 	page += add("</html>");
 
 	res = args["res"];
 	res.send(page);
-};
-
-header = function(input, callback, args) {
-	fs.readFile("static/header.html", "utf8" , function(err, data) {
-		if (!err) {
-			return callback(input + data, args);
-		}
-	});
 };
 
 add = function(string) {
