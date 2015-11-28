@@ -10,6 +10,12 @@
 	font-size: 60px;
 }
 
+.header a {
+	font-style: inherit;
+	color: inherit;
+	text-decoration: none;
+}
+
 .header h2 {
 	font-size: 30px;
 	color: #eee;
