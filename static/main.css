@@ -21,7 +21,7 @@
 	color: #eee;
 }
 
-.search {
+.search, .results {
 	text-align: center;
 	padding: 20px;
 	background-color: #E9E9E9;
@@ -62,6 +62,15 @@
 	color: #cF6900;
 }
 
+.results h2 {
+	font-size: 30px;
+	font-family: 'Slabo 27px', serif;
+}
+
+.results h3 {
+	text-align: left;
+}
+
 .fancy {
 	font-family: 'Slabo 27px', serif;
 	color: #FF9900;
@@ -74,4 +83,20 @@ body {
 	font-size: 16px;
 	font-family: 'Open Sans', sans-serif;
 	color: #424242;
+}
+
+.circle {
+	display: inline-block;
+
+	border-radius: 50%;
+
+	width: 36px;
+	height: 36px;
+
+	background: #3299BB;
+	border: 2px solid #3299BB;
+	color: #fff;
+	text-align: center;
+
+	font-size: 25px;
 }
