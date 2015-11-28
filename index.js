@@ -53,7 +53,7 @@ homepage = function(input, callbacks, args) {
 	page += add("</div>");
 
 	var callback = callbacks.pop();
-	return callback(input + page, callbacks, args);
+	return callback(page, callbacks, args);
 };
 
 results = function(input, callbacks, args) {
@@ -87,7 +87,7 @@ results = function(input, callbacks, args) {
 	page += add("</div>");
 
 	var callback = callbacks.pop();
-	return callback(input + page, callbacks, args);
+	return callback(page, callbacks, args);
 };
 
 header = function(input, callbacks, args) {
