@@ -36,44 +36,29 @@ app.get('/', function(req, res) {
 			}
 		});
 	} else {
-		res.send(homepage());
+		header("", homepage, res);
 	}
 });
 
-homepage = function() {
-	var page = "";
-
-	page += add("<!DOCTYPE html>");
-	page += add("<html>");
-
-	page += header();
-
-	page += add("<div class='header'>");
-	page += add("<h1>InCiteful</h1>");
-	page += add("<h3>Free academic influence tracking</h3>");
-	page += add("</div>");
+homepage = function(input, res) {
+	page = input;
 
 	page += add("<div class='search'>");
-	page += add("<h5>See your research impact:</h5>");
+	page += add("<h4>See your research impact:</h4>");
 	page += add("<form method='get'> <input type='text' name='me'/> <button type='submit'>Search</button></form>");
 	page += add("</div>");
 
 	page += add("</html>");
 
-	return page;
+	res.send(page);
 };
 
-header = function() {
-	var header = "";
-	header += add("<head>");
-
-	header += add("<title>InCiteful - free academic influence tracking </title>");
-	header += add("<meta name='author' content='Matthew Lake'/>");
-	header += add("<link type='text/css' rel='stylesheet' href='static/main.css'>");
-
-	header += add("</head>");
-
-	return header;
+header = function(input, callback, res) {
+	fs.readFile("static/header.html", "utf8" , function(err, data) {
+		if (!err) {
+			return callback(input + data, res);
+		}
+	});
 };
 
 add = function(string) {
