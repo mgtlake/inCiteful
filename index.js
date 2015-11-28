@@ -48,6 +48,11 @@ homepage = function() {
 
 	page += header();
 
+	page += add("<h1>InCiteful</h1>");
+	page += add("<h3>Free academic influence tracking</h3>");
+
+	page += add("<form> <input type='text'/> <button type='submit'>Search</button></form>");
+
 	page += add("</html>");
 
 	return page;
