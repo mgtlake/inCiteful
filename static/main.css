@@ -2,7 +2,7 @@
 	text-align: center;
 	background-color: #3299BB;
 	padding: 20px;
-	color: #FF9900;
+	color: #eee;
 	font-family: 'Slabo 27px', serif;
 }
 
@@ -17,11 +17,48 @@
 
 .search {
 	text-align: center;
+	padding: 20px;
+	background-color: #E9E9E9;
+}
+
+.search h4 {
+	font-size: 20px;
+	margin-top: 10px;
+	text-align: center;
+}
+
+.search input {
+	font-size: 30px;
+	background: none;
+	font-family: 'Slabo 27px', serif;
+	border: none;
+	border-bottom: 3px solid #FF9900;
+}
+
+.search button {
+	font-size: 30px;
+	font-family: 'Slabo 27px', serif;
+	background-color: #E9E9E9;
+	border: 3px solid #FF9900;
+	color: #FF9900;
+	cursor: pointer;
+}
+
+.search button:hover {
+	background-color: #E9E9E9;
+	border: 3px solid #dF7900;
+	color: #dF7900;
+}
+
+.search button:focus:active {
+	background-color: #d9d9d9;
+	border: 3px solid #cF6900;
+	color: #cF6900;
 }
 
 .fancy {
 	font-family: 'Slabo 27px', serif;
-	color: #fff;
+	color: #FF9900;
 }
 
 body {
@@ -30,4 +67,5 @@ body {
 	margin-right: auto;
 	font-size: 16px;
 	font-family: 'Open Sans', sans-serif;
+	color: #424242;
 }
