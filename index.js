@@ -11,21 +11,17 @@ app.get('/', function(req, res) {
 	var author = req.query["author"];
 
 	if (author) {
-		var url = "http://academic.research.microsoft.com/json.svc/";
+		var url = "http://academic.research.microsoft.com/json.svc/search?";
 
-		url += "search?";
-
-		url += "AppId=" + key;
+		url += "AppID=" + key;
 
 		url += "&FullTextQuery=" + author.replace(' ', '+');
 		url += "&ResultObjects=" + "author";
 		url += "&StartIdx=" + "1";
 		url += "&EndIdx=" + "1";
 
-		console.log(new Date().getTime());
 		request(url, function (error, response, body) {
 			if (!error && response.statusCode == 200) {
-				console.log(new Date().getTime());
 
 				var json = JSON.parse(body);
 
@@ -33,6 +29,11 @@ app.get('/', function(req, res) {
 				callbacks.push(end);
 				callbacks.push(results);
 				header("", callbacks, {"res": res, "json": json});
+
+				if (json["d"]["Author"]["Result"] !== null) {
+					var me = json["d"]["Author"]["Result"][0];
+					l_index(1, me["PublicationCount"], me["ID"], 0);
+				}
 			}
 		});
 	} else {
@@ -44,7 +45,7 @@ app.get('/', function(req, res) {
 });
 
 homepage = function(input, callbacks, args) {
-	page = input;
+	var page = input;
 
 	page += add("<div class='search'>");
 	page += add("<h4>See your research impact:</h4>");
@@ -57,9 +58,9 @@ homepage = function(input, callbacks, args) {
 };
 
 results = function(input, callbacks, args) {
-	json = args["json"];
+	var json = args["json"];
 
-	page = input;
+	var page = input;
 
 	page += add("<div class='results'>");
 
@@ -68,20 +69,18 @@ results = function(input, callbacks, args) {
 	} else {
 		var me = json["d"]["Author"]["Result"][0];
 		var name = me["FirstName"] + " " + me["MiddleName"] + " " + me["LastName"];
-		var id = me["ID"];
-		var affiliation = me["Affiliation"]["Name"];
+		var affiliation = me["Affiliation"] !== null ? me["Affiliation"]["Name"] : "";
 		var citeCount = me["CitationCount"];
 		var pubCount = me["PublicationCount"];
 		var h_index = me["HIndex"];
 		var g_index = me["GIndex"];
 
-		page += add("<h2>" + name + "</h2>");
-		page += add("<h3>Institution: " + affiliation + "</h3>");
+		page += add("<h2>" + name + "<small> &mdash; " +  affiliation + "</small> </h2>");
 		page += add("<h3>Total Citation Count: " + citeCount + "</h3>");
 		page += add("<h3>Total Publication Count: " + pubCount + "</h3>");
-		page += add("<h3>Average Citations per Publication: " + (citeCount/pubCount).toFixed(2) + "</h3>");
-		page += add("<h3>H-Index: " + h_index + "</h3>");
-		page += add("<h3>G-Index: " + g_index + "</h3>");
+		page += add("<h3>Average Citations per Publication: " + (citeCount/pubCount).toFixed(1) + "</h3>");
+		page += add("<h3>H-Index: <div class='circle'>" + h_index + "</div></h3>");
+		page += add("<h3>G-Index: <div class='circle'>" + g_index + "</div></h3>");
 	}
 
 	page += add("</div>");
@@ -100,10 +99,10 @@ header = function(input, callbacks, args) {
 };
 
 end = function(input, callbacks, args) {
-	page = input;
+	var page = input;
 	page += add("</html>");
 
-	res = args["res"];
+	var res = args["res"];
 	res.send(page);
 };
 
@@ -116,5 +115,43 @@ fs.readFile("API key.txt", "utf8" , function(err, data) {
 
 	server = app.listen(3000);
 });
+
+l_index = function(i, max, id, sum) {
+	console.log(i + " / " + max);
+	if (i <= max) {
+		var url = "http://academic.research.microsoft.com/json.svc/search?";
+
+		url += "AppID=" + key;
+		url += "&AuthorID=" + id;
+
+		url += "&ResultObjects=" + "publication";
+		url += "&PublicationContent=" + "title,author";
+		url += "&StartIdx=" + i;
+		url += "&EndIdx=" + i;
+
+		request(url, function (error, response, body) {
+			if (!error && response.statusCode == 200) {
+				var json = JSON.parse(body);
+				if (json["d"]["Publication"]["Result"] !== null) {
+					var pub = json["d"]["Publication"]["Result"][0];
+					var c = pub["CitationCount"];
+					var a = Object.keys(pub["Author"]).length;
+					var y = pub["Year"] !== 0 ? new Date().getFullYear() - pub["Year"] + 1 : 1;
+
+					//console.log("c: " + c);
+					//console.log("a: " + a);
+					//console.log("y:" + y);
+
+					sum += c / (a * y);
+				}
+			}
+
+			setTimeout((function() {l_index(i + 1, max, id, sum)})(i), 300);
+		});
+	} else {
+		console.log(sum);
+		console.log(Math.log(sum * 3) + 1);
+	}
+};
 
 app.use('/static', express.static('static'));
