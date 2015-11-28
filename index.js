@@ -48,10 +48,15 @@ homepage = function() {
 
 	page += header();
 
+	page += add("<div class='header'>");
 	page += add("<h1>InCiteful</h1>");
 	page += add("<h3>Free academic influence tracking</h3>");
+	page += add("</div>");
 
-	page += add("<form> <input type='text'/> <button type='submit'>Search</button></form>");
+	page += add("<div class='search'>");
+	page += add("<h5>See your research impact:</h5>");
+	page += add("<form method='get'> <input type='text' name='me'/> <button type='submit'>Search</button></form>");
+	page += add("</div>");
 
 	page += add("</html>");
 
@@ -64,6 +69,7 @@ header = function() {
 
 	header += add("<title>InCiteful - free academic influence tracking </title>");
 	header += add("<meta name='author' content='Matthew Lake'/>");
+	header += add("");
 
 	header += add("</head>");
 
