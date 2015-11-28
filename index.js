@@ -69,7 +69,7 @@ header = function() {
 
 	header += add("<title>InCiteful - free academic influence tracking </title>");
 	header += add("<meta name='author' content='Matthew Lake'/>");
-	header += add("<link type='text/css' rel='stylesheet' href='main.css'>");
+	header += add("<link type='text/css' rel='stylesheet' href='static/main.css'>");
 
 	header += add("</head>");
 
@@ -85,3 +85,5 @@ fs.readFile("API key.txt", "utf8" , function(err, data) {
 
 	server = app.listen(3000);
 });
+
+app.use('/static', express.static('static'));
