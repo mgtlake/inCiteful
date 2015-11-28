@@ -22,8 +22,11 @@ app.get('/', function(req, res) {
 		url += "&StartIdx=" + "1";
 		url += "&EndIdx=" + "1";
 
+		console.log(new Date().getTime());
 		request(url, function (error, response, body) {
 			if (!error && response.statusCode == 200) {
+				console.log(new Date().getTime());
+
 				var json = JSON.parse(body);
 
 				if (json["d"]["Author"]["Result"] === null) {
@@ -32,7 +35,7 @@ app.get('/', function(req, res) {
 					console.log(json["d"]["Author"]["Result"][0]["HIndex"]);
 				}
 
-				res.send("test");
+				header("", homepage, res);
 			}
 		});
 	} else {
@@ -45,7 +48,8 @@ homepage = function(input, res) {
 
 	page += add("<div class='search'>");
 	page += add("<h4>See your research impact:</h4>");
-	page += add("<form method='get'> <input type='text' name='me'/> <button type='submit'>Search</button></form>");
+	page += add("<form method='get'> <input type='text' name='me' placeholder='Your Name'/> <button type='submit'>Enter</button></form>");
+
 	page += add("</div>");
 
 	page += add("</html>");
