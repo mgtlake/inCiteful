@@ -69,7 +69,7 @@ header = function() {
 
 	header += add("<title>InCiteful - free academic influence tracking </title>");
 	header += add("<meta name='author' content='Matthew Lake'/>");
-	header += add("");
+	header += add("<link type='text/css' rel='stylesheet' href='main.css'>");
 
 	header += add("</head>");
 
