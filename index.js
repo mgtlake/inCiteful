@@ -116,6 +116,15 @@ fs.readFile("API key.txt", "utf8" , function(err, data) {
 	server = app.listen(3000);
 });
 
+app.get("/l-index", function(req, res) {
+	var id = req.query["id"];
+	var max = req.query["max"];
+
+	if (id && max) {
+		l_index(1, max, id, 0);
+	}
+});
+
 l_index = function(i, max, id, sum) {
 	console.log(i + " / " + max);
 	if (i <= max) {
@@ -137,10 +146,6 @@ l_index = function(i, max, id, sum) {
 					var c = pub["CitationCount"];
 					var a = Object.keys(pub["Author"]).length;
 					var y = pub["Year"] !== 0 ? new Date().getFullYear() - pub["Year"] + 1 : 1;
-
-					//console.log("c: " + c);
-					//console.log("a: " + a);
-					//console.log("y:" + y);
 
 					sum += c / (a * y);
 				}
