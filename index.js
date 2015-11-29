@@ -42,7 +42,7 @@ app.get('/', function(req, res) {
 				var me = JSON.parse(data);
 			}
 
-			header("", callbacks, {"res": res, "json": me});
+			header("", callbacks, {"res": res, "json": me, "author": author});
 		});
 	} else {
 		var callbacks = [];
@@ -72,7 +72,7 @@ results = function(input, callbacks, args) {
 
 	page += add("<div class='results'>");
 
-	if (json === null) {
+	if (json === null || json === undefined) {
 		page += add("<h2>Sorry, we couldn't find you :(</h2>");
 	} else {
 		var name = json["FirstName"] + " " + json["MiddleName"] + " " + json["LastName"];
@@ -92,7 +92,7 @@ results = function(input, callbacks, args) {
 
 		json["Publications"] = [];
 		json["LIndex"] = 0;
-		l_index(1, pubCount, id, 0, json);
+		l_index(1, pubCount, id, 0, json, args["author"]);
 	}
 
 	page += add("</div>");
@@ -137,7 +137,7 @@ app.get("/l-index", function(req, res) {
 	}
 });
 
-l_index = function(i, max, id, sum, me) {
+l_index = function(i, max, id, sum, me, author) {
 	console.log(i + " / " + max);
 	if (i <= max) {
 		var url = "http://academic.research.microsoft.com/json.svc/search?";
