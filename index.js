@@ -86,15 +86,47 @@ results = function(input, callbacks, args) {
 		var g_index = json["GIndex"];
 
 		page += add("<h2>" + name + "<small> &mdash; " +  affiliation + "</small> </h2>");
+		page += add("<div class='left'>");
 		page += add("<h3>Total Citation Count: " + citeCount + "</h3>");
 		page += add("<h3>Total Publication Count: " + pubCount + "</h3>");
 		page += add("<h3>Average Citations per Publication: " + (citeCount/pubCount).toFixed(1) + "</h3>");
+		page += add("</div>");
+		page += add("<div class='right'>");
 		page += add("<h3>H-Index: <div class='circle'>" + h_index + "</div></h3>");
 		page += add("<h3>G-Index: <div class='circle'>" + g_index + "</div></h3>");
 
 		if (json["LIndex"] !== undefined) {
 			page += add("<h3>L-Index: <div class='circle circleBig'>" + json["LIndex"].toFixed(1) + "</div></h3>");
+			page += add("</div>");
+
+			if (json["Publications"] !== undefined) {
+				page += add("<h2>Publications</h2>");
+
+				page += add("<table class='sortable'>");
+
+				page += add("<thead>");
+				page += add("<tr>");
+				page += add("<th>Year</th>");
+				page += add("<th>Title</th>");
+				page += add("<th>Citations</th>");
+				page += add("</tr>");
+				page += add("</thead>");
+
+				page += add("<tbody>");
+				json["Publications"].forEach(function(element, index, array) {
+					page += add("<tr>");
+					page += add("<td>" + element.Year + "</td>");
+					page += add("<td>" + element.Title + "</td>");
+					page += add("<td>" + element.CitationCount + "</td>");
+					page += add("</tr>");
+				});
+
+				page += add("</tbody>");
+				page += add("</table>");
+			}
 		} else {
+			page += add("</div>");
+
 			json ["Publications"] = [];
 			json["LIndex"] = 0;
 			l_index(1, pubCount, id, 0, json, args["author"]);
