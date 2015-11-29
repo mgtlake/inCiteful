@@ -9,6 +9,70 @@
 	<link href='https://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
 	<link href='https://fonts.googleapis.com/css?family=Droid+Serif' rel='stylesheet' type='text/css'>
 	<script src="static/sorttable.js"></script>
+	<script src="//canvasjs.com/assets/script/canvasjs.min.js"></script>
+	<script type="text/javascript">
+		window.onload = function () {
+			var chart = new CanvasJS.Chart("chartContainer",
+					{
+						animationEnabled: true,
+						axisX:{
+							gridColor: "Silver",
+							tickColor: "silver",
+							valueFormatString: "",
+							labelFontSize: 12
+						},
+						theme: "theme2",
+						axisY: {
+							gridColor: "Silver",
+							tickColor: "silver",
+							labelFontSize: 12
+						},
+						axisY2: {
+							gridColor: "Silver",
+							tickColor: "silver",
+							labelFontSize: 12
+						},
+						data: [
+							{
+								type: "line",
+								showInLegend: true,
+								lineThickness: 2,
+								name: "Publication",
+								markerType: "square",
+								color: "#FF9900",
+								dataPoints: PUBS
+							},
+							{
+								type: "line",
+								axisYType: "secondary",
+								showInLegend: true,
+								name: "Citation",
+								color: "#3299BB",
+								lineThickness: 2,
+								dataPoints: CITES
+							}
+
+						],
+						legend:{
+							cursor:"pointer",
+							verticalAlign: "bottom",
+							horizontalAlign: "center",
+							fontSize: 14,
+							itemclick:function(e){
+								if (typeof(e.dataSeries.visible) === "undefined" || e.dataSeries.visible) {
+									e.dataSeries.visible = false;
+								}
+								else{
+									e.dataSeries.visible = true;
+								}
+								chart.render();
+							}
+						}
+					});
+
+			chart.render();
+		}
+	</script>
 </head>
 <body>
 	<div class='header'>

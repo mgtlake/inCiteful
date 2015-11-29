@@ -100,6 +100,11 @@ results = function(input, callbacks, args) {
 			page += add("</div>");
 
 			if (json["Publications"] !== undefined) {
+				page += "<div id='chartContainer' class='chart'></div>";
+
+				var pubs = [];
+				var cites = [];
+
 				page += add("<h2>Publications</h2>");
 
 				page += add("<table class='sortable'>");
@@ -114,12 +119,33 @@ results = function(input, callbacks, args) {
 
 				page += add("<tbody>");
 				json["Publications"].forEach(function(element, index, array) {
+					if (element.Year !== 0) {
+						pubs[element.Year] = pubs[element.Year] == undefined ? 1 : pubs[element.Year] + 1;
+						cites[element.Year] = cites[element.Year] == undefined ? element.CitationCount : cites[element.Year] + element.CitationCount;
+					}
+
 					page += add("<tr>");
 					page += add("<td>" + element.Year + "</td>");
 					page += add("<td>" + element.Title + "</td>");
 					page += add("<td>" + element.CitationCount + "</td>");
 					page += add("</tr>");
 				});
+
+				var pubData = [];
+				pubs.forEach( function(element, index, array) {
+					if (element != 0) {
+						pubData.push({"x": index, "y": element});
+					}
+				});
+				page = page.replace("PUBS", JSON.stringify(pubData, null, 4));
+
+				var citeData = [];
+				cites.forEach( function(element, index, array) {
+					if (element != 0) {
+						citeData.push({"x": index, "y": element});
+					}
+				});
+				page = page.replace("CITES", JSON.stringify(citeData, null, 4));
 
 				page += add("</tbody>");
 				page += add("</table>");
