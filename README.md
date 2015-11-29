@@ -1,2 +1,2 @@
 # inCiteful
-Free academic influence tracking website
+Free academic influence metrics website
