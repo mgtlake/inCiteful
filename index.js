@@ -33,7 +33,9 @@ app.get('/', function(req, res) {
 
 						var me = json["d"]["Author"]["Result"] !== null ? json["d"]["Author"]["Result"][0] : null;
 
-						fs.writeFile("data/" + author + ".json", JSON.stringify(me, null, 4));
+						if (me !== null) {
+							fs.writeFile("data/" + author + ".json", JSON.stringify(me, null, 4));
+						}
 					}
 				});
 			} else {
