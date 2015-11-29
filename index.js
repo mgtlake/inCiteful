@@ -92,9 +92,13 @@ results = function(input, callbacks, args) {
 		page += add("<h3>H-Index: <div class='circle'>" + h_index + "</div></h3>");
 		page += add("<h3>G-Index: <div class='circle'>" + g_index + "</div></h3>");
 
-		json["Publications"] = [];
-		json["LIndex"] = 0;
-		l_index(1, pubCount, id, 0, json, args["author"]);
+		if (json["LIndex"] !== undefined) {
+			page += add("<h3>L-Index: <div class='circle circleBig'>" + json["LIndex"].toFixed(1) + "</div></h3>");
+		} else {
+			json ["Publications"] = [];
+			json["LIndex"] = 0;
+			l_index(1, pubCount, id, 0, json, args["author"]);
+		}
 	}
 
 	page += add("</div>");
