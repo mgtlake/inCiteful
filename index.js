@@ -87,9 +87,9 @@ results = function(input, callbacks, args) {
 
 		page += add("<h2>" + name + "<small> &mdash; " +  affiliation + "</small> </h2>");
 		page += add("<div class='left'>");
-		page += add("<h3>Total Citation Count: " + citeCount + "</h3>");
-		page += add("<h3>Total Publication Count: " + pubCount + "</h3>");
-		page += add("<h3>Average Citations per Publication: " + (citeCount/pubCount).toFixed(1) + "</h3>");
+		page += add("<h3>Total Citation Count: <span>" + citeCount + "</span></h3>");
+		page += add("<h3>Total Publication Count: <span>" + pubCount + "</span></h3>");
+		page += add("<h3>Average Citations per Publication: <span>" + (citeCount/pubCount).toFixed(1) + "</span></h3>");
 		page += add("</div>");
 		page += add("<div class='right'>");
 		page += add("<h3>H-Index: <div class='circle'>" + h_index + "</div></h3>");

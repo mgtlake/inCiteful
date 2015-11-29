@@ -96,6 +96,8 @@ body {
 	text-align: center;
 
 	font-size: 25px;
+
+	margin-left: 20px;
 }
 
 .circleBig {
@@ -137,9 +139,22 @@ tr:nth-child(even) {
 	text-align: left;
 }
 
+.left h3 {
+	padding-top: 8px;
+	padding-bottom: 5px;
+}
+
+.left span {
+	padding: 5px;
+	padding-right: 7px;
+	background-color: #3299BB;
+	color: #fff;
+}
+
 .right {
 	display: inline-block;
 	width: 29%;
 	vertical-align: top;
-	text-align: right;
+	text-align: center;
+	baseline-shift: 2px;
 }
