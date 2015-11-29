@@ -11,24 +11,32 @@ app.get('/', function(req, res) {
 	var author = req.query["author"];
 
 	if (author) {
-		var url = "http://academic.research.microsoft.com/json.svc/search?";
+		fs.readFile("dataa/" + author + ".json", "utf8" , function(err, data) {
+			if (err) {
+				var url = "http://academic.research.microsoft.com/json.svc/search?";
 
-		url += "AppID=" + key;
+				url += "AppID=" + key;
 
-		url += "&FullTextQuery=" + author.replace(' ', '+');
-		url += "&ResultObjects=" + "author";
-		url += "&StartIdx=" + "1";
-		url += "&EndIdx=" + "1";
+				url += "&FullTextQuery=" + author.replace(' ', '+');
+				url += "&ResultObjects=" + "author";
+				url += "&StartIdx=" + "1";
+				url += "&EndIdx=" + "1";
 
-		request(url, function (error, response, body) {
-			if (!error && response.statusCode == 200) {
+				request(url, function (error, response, body) {
+					if (!error && response.statusCode == 200) {
 
-				var json = JSON.parse(body);
+						var json = JSON.parse(body);
 
-				var callbacks = [];
-				callbacks.push(end);
-				callbacks.push(results);
-				header("", callbacks, {"res": res, "json": json});
+						var callbacks = [];
+						callbacks.push(end);
+						callbacks.push(results);
+
+
+						header("", callbacks, {"res": res, "json": json});
+					}
+				});
+			} else {
+				console.log("exists");
 			}
 		});
 	} else {
