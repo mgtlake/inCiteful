@@ -14,6 +14,7 @@
 		window.onload = function () {
 			var chart = new CanvasJS.Chart("chartContainer",
 					{
+						backgroundColor: "#E9E9E9",
 						animationEnabled: true,
 						axisX:{
 							gridColor: "Silver",
@@ -34,19 +35,18 @@
 						},
 						data: [
 							{
-								type: "line",
+								type: "spline",
 								showInLegend: true,
 								lineThickness: 2,
-								name: "Publication",
-								markerType: "square",
+								name: "Publications",
 								color: "#FF9900",
 								dataPoints: PUBS
 							},
 							{
-								type: "line",
+								type: "spline",
 								axisYType: "secondary",
 								showInLegend: true,
-								name: "Citation",
+								name: "Citations",
 								color: "#3299BB",
 								lineThickness: 2,
 								dataPoints: CITES
