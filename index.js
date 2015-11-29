@@ -11,7 +11,11 @@ app.get('/', function(req, res) {
 	var author = req.query["author"];
 
 	if (author) {
-		fs.readFile("dataa/" + author + ".json", "utf8" , function(err, data) {
+		fs.readFile("data/" + author + ".json", "utf8" , function(err, data) {
+			var callbacks = [];
+			callbacks.push(end);
+			callbacks.push(results);
+
 			if (err) {
 				var url = "http://academic.research.microsoft.com/json.svc/search?";
 
@@ -27,18 +31,26 @@ app.get('/', function(req, res) {
 
 						var json = JSON.parse(body);
 
-						var callbacks = [];
-						callbacks.push(end);
-						callbacks.push(results);
-
 						var me = json["d"]["Author"]["Result"] !== null ? json["d"]["Author"]["Result"][0] : null;
 
-						header("", callbacks, {"res": res, "json": me});
+						fs.writeFile("data/" + author + ".json", JSON.stringify(me, null, 4), function(err) {
+							if (err) {
+								return console.log(err);
+							}
+
+							console.log("The file was saved!");
+						});
+
+
 					}
 				});
 			} else {
 				console.log("exists");
+
+				var me = JSON.parse(data);
 			}
+
+			header("", callbacks, {"res": res, "json": me});
 		});
 	} else {
 		var callbacks = [];
