@@ -33,15 +33,7 @@ app.get('/', function(req, res) {
 
 						var me = json["d"]["Author"]["Result"] !== null ? json["d"]["Author"]["Result"][0] : null;
 
-						fs.writeFile("data/" + author + ".json", JSON.stringify(me, null, 4), function(err) {
-							if (err) {
-								return console.log(err);
-							}
-
-							console.log("The file was saved!");
-						});
-
-
+						fs.writeFile("data/" + author + ".json", JSON.stringify(me, null, 4));
 					}
 				});
 			} else {
@@ -98,7 +90,9 @@ results = function(input, callbacks, args) {
 		page += add("<h3>H-Index: <div class='circle'>" + h_index + "</div></h3>");
 		page += add("<h3>G-Index: <div class='circle'>" + g_index + "</div></h3>");
 
-		l_index(1, pubCount, id, 0);
+		json["Publications"] = [];
+		json["LIndex"] = 0;
+		l_index(1, pubCount, id, 0, json);
 	}
 
 	page += add("</div>");
@@ -139,11 +133,11 @@ app.get("/l-index", function(req, res) {
 	var max = req.query["max"];
 
 	if (id && max) {
-		l_index(1, max, id, 0);
+		//l_index(1, max, id, 0);
 	}
 });
 
-l_index = function(i, max, id, sum) {
+l_index = function(i, max, id, sum, me) {
 	console.log(i + " / " + max);
 	if (i <= max) {
 		var url = "http://academic.research.microsoft.com/json.svc/search?";
@@ -168,6 +162,12 @@ l_index = function(i, max, id, sum) {
 					var y = pub["Year"] !== 0 ? new Date().getFullYear() - pub["Year"] + 1 : 1;
 
 					sum += c / (a * y);
+
+					me["Publications"].push({
+						"Title" : pub["Title"],
+						"CitationCount" : c,
+						"Year": pub["Year"]
+					});
 				} else {
 					err = true;
 				}
@@ -177,13 +177,17 @@ l_index = function(i, max, id, sum) {
 
 			if (err) {
 				console.log("error");
-				setTimeout((function() {l_index(i, max, id, sum)})(i), 300);
+				setTimeout((function() {l_index(i, max, id, sum, me)})(i), 300);
 			} else {
-				setTimeout((function() {l_index(i + 1, max, id, sum)})(i), 300);
+				setTimeout((function() {l_index(i + 1, max, id, sum, me)})(i), 300);
 			}
 		});
 	} else {
-		console.log(Math.log(sum * 3) + 1);
+		var l = Math.log(sum * 3) + 1;
+		console.log(l);
+		me["LIndex"] = l;
+
+		fs.writeFile("data/" + author + ".json", JSON.stringify(me, null, 4));
 	}
 };
 
