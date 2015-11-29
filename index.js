@@ -29,11 +29,6 @@ app.get('/', function(req, res) {
 				callbacks.push(end);
 				callbacks.push(results);
 				header("", callbacks, {"res": res, "json": json});
-
-				if (json["d"]["Author"]["Result"] !== null) {
-					var me = json["d"]["Author"]["Result"][0];
-					l_index(1, me["PublicationCount"], me["ID"], 0);
-				}
 			}
 		});
 	} else {
@@ -69,6 +64,7 @@ results = function(input, callbacks, args) {
 	} else {
 		var me = json["d"]["Author"]["Result"][0];
 		var name = me["FirstName"] + " " + me["MiddleName"] + " " + me["LastName"];
+		var id = me["ID"];
 		var affiliation = me["Affiliation"] !== null ? me["Affiliation"]["Name"] : "";
 		var citeCount = me["CitationCount"];
 		var pubCount = me["PublicationCount"];
@@ -81,6 +77,8 @@ results = function(input, callbacks, args) {
 		page += add("<h3>Average Citations per Publication: " + (citeCount/pubCount).toFixed(1) + "</h3>");
 		page += add("<h3>H-Index: <div class='circle'>" + h_index + "</div></h3>");
 		page += add("<h3>G-Index: <div class='circle'>" + g_index + "</div></h3>");
+
+		l_index(1, pubCount, id, 0);
 	}
 
 	page += add("</div>");
