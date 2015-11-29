@@ -31,8 +31,9 @@ app.get('/', function(req, res) {
 						callbacks.push(end);
 						callbacks.push(results);
 
+						var me = json["d"]["Author"]["Result"] !== null ? json["d"]["Author"]["Result"][0] : null;
 
-						header("", callbacks, {"res": res, "json": json});
+						header("", callbacks, {"res": res, "json": me});
 					}
 				});
 			} else {
@@ -67,17 +68,16 @@ results = function(input, callbacks, args) {
 
 	page += add("<div class='results'>");
 
-	if (json["d"]["Author"]["Result"] === null) {
+	if (json === null) {
 		page += add("<h2>Sorry, we couldn't find you :(</h2>");
 	} else {
-		var me = json["d"]["Author"]["Result"][0];
-		var name = me["FirstName"] + " " + me["MiddleName"] + " " + me["LastName"];
-		var id = me["ID"];
-		var affiliation = me["Affiliation"] !== null ? me["Affiliation"]["Name"] : "";
-		var citeCount = me["CitationCount"];
-		var pubCount = me["PublicationCount"];
-		var h_index = me["HIndex"];
-		var g_index = me["GIndex"];
+		var name = json["FirstName"] + " " + json["MiddleName"] + " " + json["LastName"];
+		var id = json["ID"];
+		var affiliation = json["Affiliation"] !== null ? json["Affiliation"]["Name"] : "";
+		var citeCount = json["CitationCount"];
+		var pubCount = json["PublicationCount"];
+		var h_index = json["HIndex"];
+		var g_index = json["GIndex"];
 
 		page += add("<h2>" + name + "<small> &mdash; " +  affiliation + "</small> </h2>");
 		page += add("<h3>Total Citation Count: " + citeCount + "</h3>");
