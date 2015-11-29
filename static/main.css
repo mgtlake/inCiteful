@@ -68,10 +68,6 @@
 	margin-top: 0;
 }
 
-.results h3 {
-	text-align: left;
-}
-
 .fancy {
 	font-family: 'Slabo 27px', serif;
 	color: #FF9900;
@@ -105,4 +101,45 @@ body {
 .circleBig {
 	width: 40px;
 	height: 40px;
+}
+
+/* Sortable tables */
+table.sortable thead {
+	background-color: #3299BB;
+	color: #fff;
+	font-size: 1.2em;
+	font-family: 'Slabo 27px', serif;
+	cursor: default;
+}
+
+table.sortable th:not(.sorttable_sorted):not(.sorttable_sorted_reverse):not(.sorttable_nosort):after {
+	content: " \25B4\25BE"
+}
+
+table {
+	width: 80%;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+th {
+	min-width: 125px;
+}
+
+tr:nth-child(even) {
+	background-color: #BCBCBC;
+}
+
+.left {
+	display: inline-block;
+	width: 70%;
+	vertical-align: top;
+	text-align: left;
+}
+
+.right {
+	display: inline-block;
+	width: 29%;
+	vertical-align: top;
+	text-align: right;
 }
