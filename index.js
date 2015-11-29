@@ -92,11 +92,11 @@ results = function(input, callbacks, args) {
 		page += add("<h3>Average Citations per Publication: <span>" + (citeCount/pubCount).toFixed(1) + "</span></h3>");
 		page += add("</div>");
 		page += add("<div class='right'>");
-		page += add("<h3>H-Index: <div class='circle'>" + h_index + "</div></h3>");
-		page += add("<h3>G-Index: <div class='circle'>" + g_index + "</div></h3>");
+		page += add("<h3>H-Index: <div class='circle'>" + h_index + "</div> <a href='https://en.wikipedia.org/wiki/H-index'>?</a></h3>");
+		page += add("<h3>G-Index: <div class='circle'>" + g_index + "</div> <a href='https://en.wikipedia.org/wiki/G-index'>?</a></h3>");
 
 		if (json["LIndex"] !== undefined) {
-			page += add("<h3>L-Index: <div class='circle circleBig'>" + json["LIndex"].toFixed(1) + "</div></h3>");
+			page += add("<h3>L-Index: <div class='circle circleBig'>" + json["LIndex"].toFixed(1) + "</div> <a href='http://f1000research.com/articles/4-884/v1'>?</a></h3>");
 			page += add("</div>");
 
 			if (json["Publications"] !== undefined) {

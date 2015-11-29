@@ -169,3 +169,9 @@ tr:nth-child(even) {
 .canvasjs-chart-credit {
 	display: none;
 }
+
+.results a {
+	text-decoration: underline;
+	color: #9C9C9C;
+	padding-left: 10px;
+}
