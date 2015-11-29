@@ -137,6 +137,8 @@ l_index = function(i, max, id, sum) {
 		url += "&EndIdx=" + i;
 
 		request(url, function (error, response, body) {
+			var err = false;
+
 			if (!error && response.statusCode == 200) {
 				var json = JSON.parse(body);
 				if (json["d"]["Publication"]["Result"] !== null) {
@@ -146,13 +148,21 @@ l_index = function(i, max, id, sum) {
 					var y = pub["Year"] !== 0 ? new Date().getFullYear() - pub["Year"] + 1 : 1;
 
 					sum += c / (a * y);
+				} else {
+					err = true;
 				}
+			} else {
+				err = true;
 			}
 
-			setTimeout((function() {l_index(i + 1, max, id, sum)})(i), 300);
+			if (err) {
+				console.log("error");
+				setTimeout((function() {l_index(i, max, id, sum)})(i), 300);
+			} else {
+				setTimeout((function() {l_index(i + 1, max, id, sum)})(i), 300);
+			}
 		});
 	} else {
-		console.log(sum);
 		console.log(Math.log(sum * 3) + 1);
 	}
 };
