@@ -179,9 +179,9 @@ l_index = function(i, max, id, sum, me, author) {
 
 			if (err) {
 				console.log("error");
-				setTimeout((function() {l_index(i, max, id, sum, me)})(i), 300);
+				setTimeout((function() {l_index(i, max, id, sum, me, author)})(i), 300);
 			} else {
-				setTimeout((function() {l_index(i + 1, max, id, sum, me)})(i), 300);
+				setTimeout((function() {l_index(i + 1, max, id, sum, me, author)})(i), 300);
 			}
 		});
 	} else {
